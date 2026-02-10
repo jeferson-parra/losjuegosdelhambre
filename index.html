@@ -3,42 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cuenta Regresiva 90 Días</title>
+    <title>Contador Casa</title>
     <style>
-        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f2f5; }
-        .container { text-align: center; background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        #contador { font-size: 4rem; font-weight: bold; color: #0056b3; }
-        .label { font-size: 1.5rem; color: #555; }
+        body { font-family: 'Arial', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #2c3e50; color: white; }
+        .container { position: relative; width: 300px; text-align: center; }
+        /* Dibujo de la casa con CSS */
+        .house-svg { width: 100%; height: auto; fill: #e74c3c; stroke: #c0392b; stroke-width: 5; }
+        .house-body { fill: #ecf0f1; stroke: #bdc3c7; }
+        /* Posición del número dentro de la casa */
+        .counter-overlay { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); color: #2c3e50; text-align: center; width: 100%; }
+        #dias { font-size: 70px; font-weight: bold; display: block; line-height: 1; }
+        .label { font-size: 18px; font-weight: bold; text-transform: uppercase; }
+        .titulo { margin-bottom: 20px; font-size: 22px; letter-spacing: 1px; }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <div class="label">Faltan</div>
-        <div id="contador">--</div>
-        <div class="label">Días</div>
+        <div class="titulo">FALTAN PARA EL GRAN DÍA:</div>
+        
+        <svg class="house-svg" viewBox="0 0 200 200">
+            <path d="M100 20 L20 90 L35 90 L35 180 L165 180 L165 90 L180 90 Z" class="house-body"/>
+            <path d="M100 20 L20 90 L180 90 Z" fill="#e74c3c" stroke="#c0392b"/>
+        </svg>
+
+        <div class="counter-overlay">
+            <span id="dias">--</span>
+            <span class="label">Días</span>
+        </div>
     </div>
 
     <script>
-        // CONFIGURACIÓN: Define aquí la fecha en que terminan los 90 días
-        // Ejemplo: Si hoy es 10 de febrero, 90 días después es 11 de mayo de 2026
-        const fechaObjetivo = new Date("May 10, 2026 00:00:00").getTime();
+        // Esta fecha asegura que hoy 10 de Feb marque 90
+        const fechaObjetivo = new Date("May 11, 2026 00:00:00").getTime();
 
-        const x = setInterval(function() {
+        function actualizarContador() {
             const ahora = new Date().getTime();
             const distancia = fechaObjetivo - ahora;
 
-            // Cálculo de días
+            // Cálculo de días (Math.floor redondea hacia abajo)
             const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
 
-            // Mostrar el resultado
-            document.getElementById("contador").innerHTML = dias;
+            document.getElementById("dias").innerHTML = dias > 0 ? dias : 0;
+        }
 
-            // Si termina la cuenta
-            if (distancia < 0) {
-                clearInterval(x);
-                document.getElementById("contador").innerHTML = "0";
-            }
-        }, 1000);
+        // Se ejecuta cada segundo para que siempre esté al día
+        actualizarContador();
+        setInterval(actualizarContador, 1000);
     </script>
 </body>
 </html>
