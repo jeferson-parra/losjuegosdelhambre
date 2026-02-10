@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuenta Regresiva 90 Días</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f2f5; }
+        .container { text-align: center; background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        #contador { font-size: 4rem; font-weight: bold; color: #0056b3; }
+        .label { font-size: 1.5rem; color: #555; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="label">Faltan</div>
+        <div id="contador">--</div>
+        <div class="label">Días</div>
+    </div>
+
+    <script>
+        // CONFIGURACIÓN: Define aquí la fecha en que terminan los 90 días
+        // Ejemplo: Si hoy es 10 de febrero, 90 días después es 11 de mayo de 2026
+        const fechaObjetivo = new Date("May 10, 2026 00:00:00").getTime();
+
+        const x = setInterval(function() {
+            const ahora = new Date().getTime();
+            const distancia = fechaObjetivo - ahora;
+
+            // Cálculo de días
+            const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+
+            // Mostrar el resultado
+            document.getElementById("contador").innerHTML = dias;
+
+            // Si termina la cuenta
+            if (distancia < 0) {
+                clearInterval(x);
+                document.getElementById("contador").innerHTML = "0";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
